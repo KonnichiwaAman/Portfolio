@@ -5,6 +5,7 @@ import SEO from '@/components/SEO';
 import SectionErrorBoundary from '@/components/SectionErrorBoundary';
 import { SectionLoadingFallback } from '@/components/ui/loading-states';
 import { Footer } from '@/components/ui/footer-section';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 // Lazy load heavy components
 const ParticleBackground = lazy(() => import('@/components/ParticleBackground'));
@@ -37,10 +38,12 @@ const Index = () => {
     return () => document.removeEventListener('click', handleAnchorClick);
   }, [handleAnchorClick]);
 
+  const isMobile = useIsMobile();
+  
   return (
     <>
       <SEO />
-      <Navbar />
+      {!isMobile && <Navbar />}
       <main id="main" ref={mainRef} className="relative bg-background text-foreground overflow-x-hidden" tabIndex={-1}>
         <Suspense fallback={<div className="fixed inset-0 bg-background/50" />}>
           <ParticleBackground />

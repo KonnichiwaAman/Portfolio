@@ -136,7 +136,7 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="relative py-24 px-4 md:px-8 lg:px-12 cv-auto scroll-mt-28">
+    <section id="contact" className="relative py-16 px-2 sm:px-4 md:px-8 lg:px-12 cv-auto scroll-mt-28" aria-label="Contact Section">
       <motion.div 
         className="max-w-6xl mx-auto"
         variants={containerVariants}
@@ -187,7 +187,7 @@ const Contact = () => {
                 {statusMessage.message}
               </div>
             )}
-            <form onSubmit={handleSubmit} className="w-full space-y-4">
+            <form onSubmit={handleSubmit} className="w-full space-y-6" aria-label="Contact Form">
               <div className="flex flex-col gap-2">
                 <Label htmlFor="contact-name">Name</Label>
                 <Input
@@ -265,18 +265,19 @@ const Contact = () => {
                 )}
               </div>
               <Button 
-                className="w-full group" 
+                className="w-full group py-4 text-lg rounded-lg focus:outline focus-visible:ring-2 focus-visible:ring-emerald-500"
                 type="submit"
                 disabled={isSubmitting}
+                aria-label="Send Message"
               >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-6 w-6 animate-spin" aria-hidden />
                     Sending...
                   </>
                 ) : (
                   <>
-                    <Send className="mr-2 h-4 w-4 group-hover:translate-x-1 transition-transform" />
+                    <Send className="mr-2 h-6 w-6 group-hover:translate-x-1 transition-transform" aria-hidden />
                     Send Message
                   </>
                 )}
