@@ -1,0 +1,38 @@
+backend:
+  name: git-gateway
+  branch: master
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "config"
+    label: "Configuration"
+    files:
+      - name: "socials"
+        label: "Social Media Links"
+        file: "src/data/socials.json"
+        fields:
+          - {label: "LinkedIn URL", name: "linkedin", widget: "string"}
+          - {label: "GitHub URL", name: "github", widget: "string"}
+          - {label: "Instagram URL", name: "instagram", widget: "string"}
+          - {label: "Email Address", name: "email", widget: "string"}
+          - {label: "Chess.com URL", name: "chess", widget: "string"}
+
+  - name: "content"
+    label: "Content"
+    files:
+      - name: "projects"
+        label: "Projects List"
+        file: "src/data/projects.json"
+        fields:
+          - label: "Projects"
+            name: "projects"
+            widget: "list"
+            fields:
+              - {label: "Title", name: "title", widget: "string"}
+              - {label: "Description", name: "description", widget: "text"}
+              - {label: "Technologies", name: "tech", widget: "list", default: ["Python"]}
+              - {label: "Live URL", name: "liveUrl", widget: "string", required: false}
+              - {label: "GitHub URL", name: "githubUrl", widget: "string", required: false}
+              - {label: "Status", name: "status", widget: "select", options: ["Production", "Live", "Beta", "Development", "Case Study", "In Progress", "Prototype"]}

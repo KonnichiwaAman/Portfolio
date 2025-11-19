@@ -1,0 +1,36 @@
+{
+  "projects": [
+    {
+      "title": "RAG Chatbot for Documentation",
+      "description": "Retrieval-Augmented Generation chatbot with chunking, embeddings, and vector search (FAISS/Chroma), including evaluation and guardrails.",
+      "tech": ["Python", "PyTorch", "FAISS", "Chroma", "FastAPI", "Tailwind"],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "Case Study"
+    },
+    {
+      "title": "Agentic Workflow Orchestrator",
+      "description": "Multi-tool agent with function-calling, planning, and tool routing (web, code, knowledge). Includes observability and retries.",
+      "tech": ["Python", "Agents", "Prompt Engineering", "FastAPI", "Docker"],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "In Progress"
+    },
+    {
+      "title": "LoRA Fine-tuned Classifier",
+      "description": "Parameter-efficient fine-tuning with LoRA/PEFT for a domain-specific text classifier. Includes training pipeline and inference API.",
+      "tech": ["PyTorch", "PEFT/LoRA", "Python", "FastAPI", "Docker"],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "Prototype"
+    },
+    {
+      "title": "Vision Pipeline with PyTorch",
+      "description": "End-to-end CV pipeline (augmentation, training, evaluation) with deployment-ready inference service.",
+      "tech": ["PyTorch", "Python", "FastAPI", "Docker", "Tailwind"],
+      "liveUrl": "",
+      "githubUrl": "",
+      "status": "Prototype"
+    }
+  ]
+}

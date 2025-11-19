@@ -20,7 +20,6 @@ const categories = ['All', 'Web', 'Mobile', 'Desktop', 'API', 'Other'];
 
 export const ProjectFilter = ({ projects, onFilter }: ProjectFilterProps) => {
   const [activeCategory, setActiveCategory] = useState('All');
-  const { isMobile } = useResponsive();
 
   const handleFilter = (category: string) => {
     setActiveCategory(category);

@@ -35,14 +35,20 @@ const ProfilePicture = ({ className, size = 'md' }: ProfilePictureProps) => {
       </div>
 
       {/* Profile picture container */}
-      <div className="relative w-full h-full rounded-full overflow-hidden">
+      <div 
+        className="relative w-full h-full rounded-full overflow-hidden select-none"
+        onContextMenu={(e) => e.preventDefault()}
+      >
         <OptimizedImage
           src="/profile.png"
           alt="Aman Awasthi"
           width={size === 'xl' ? 192 : size === 'lg' ? 160 : size === 'md' ? 128 : 96}
           height={size === 'xl' ? 192 : size === 'lg' ? 160 : size === 'md' ? 128 : 96}
-          className="w-full h-full object-cover transition-all duration-500 filter grayscale group-hover:grayscale-0"
+          className="w-full h-full object-cover transition-all duration-500 filter grayscale group-hover:grayscale-0 pointer-events-none"
+          draggable={false}
         />
+        {/* Transparent overlay for extra protection */}
+        <div className="absolute inset-0 z-10" aria-hidden="true" />
       </div>
     </motion.div>
   );

@@ -12,18 +12,48 @@ export default {
 	theme: {
 		container: {
 			center: true,
-			padding: '2rem',
+			padding: {
+				DEFAULT: '1rem',
+				sm: '1.5rem',
+				md: '2rem',
+				lg: '2rem',
+				xl: '2rem',
+				'2xl': '2rem',
+			},
 			screens: {
+				sm: '640px',
+				md: '768px',
+				lg: '1024px',
+				xl: '1280px',
 				'2xl': '1400px'
 			}
 		},
+		screens: {
+			'xs': '475px',
+			'sm': '640px',
+			'md': '768px',
+			'lg': '1024px',
+			'xl': '1280px',
+			'2xl': '1536px',
+		},
 		extend: {
+			fontFamily: {
+				sans: ['Outfit', 'Inter', 'sans-serif'],
+			},
+			maxWidth: {
+				container: "1280px",
+			},
 			colors: {
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
 				background: 'hsl(var(--background))',
 				foreground: 'hsl(var(--foreground))',
+				"color-1": 'hsl(var(--color-1))',
+				"color-2": 'hsl(var(--color-2))',
+				"color-3": 'hsl(var(--color-3))',
+				"color-4": 'hsl(var(--color-4))',
+				"color-5": 'hsl(var(--color-5))',
 				primary: {
 					DEFAULT: 'hsl(var(--primary))',
 					foreground: 'hsl(var(--primary-foreground))'
@@ -124,17 +154,30 @@ export default {
 					'0%, 100%': { opacity: '0.2' },
 					'50%': { opacity: '0.4' },
 				},
+				rainbow: {
+					'0%': { 'background-position': '0%' },
+					'100%': { 'background-position': '200%' },
+				},
+				marquee: {
+					'0%': { transform: 'translateX(0)' },
+					'100%': { transform: 'translateX(calc(-100% - 1rem))' }
+				}
 			},
 			animation: {
-				'accordion-down': 'accordion-down 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-				'accordion-up': 'accordion-up 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-				'fade-in': 'fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-				'scale-in': 'scale-in 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-				'slide-up': 'slide-up 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
+				'accordion-down': 'accordion-down 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+				'accordion-up': 'accordion-up 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+				'fade-in': 'fade-in 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+				'scale-in': 'scale-in 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
+				'slide-up': 'slide-up 0.5s cubic-bezier(0.22, 1, 0.36, 1)',
 				'gradient-shift': 'gradient-shift 3s ease infinite',
 				'glow-pulse': 'glow-pulse 2s ease-in-out infinite',
+				'rainbow': 'rainbow var(--speed, 2s) infinite linear',
+				'marquee': 'marquee var(--duration, 60s) linear infinite',
 			}
 		}
 	},
-	plugins: [require("tailwindcss-animate")],
+	plugins: [
+		// eslint-disable-next-line @typescript-eslint/no-require-imports
+		require("tailwindcss-animate")
+	],
 } satisfies Config;

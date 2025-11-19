@@ -32,7 +32,7 @@ const RecentFavorite = () => {
     }
   }, []);
 
-  // Update volume and mute state
+    // Update volume and mute state
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.volume = volume;

@@ -2,7 +2,7 @@ User-agent: *
 Allow: /
 
 # Sitemap location
-Sitemap: https://your-domain.com/sitemap.xml
+Sitemap: https://developeramanawasthi.netlify.app/sitemap.xml
 
 # Disallow admin or private areas if you add them later
 Disallow: /admin/

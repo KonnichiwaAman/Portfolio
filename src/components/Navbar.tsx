@@ -1,154 +1,200 @@
-import { useState, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Menu, X, Sun, Moon, Github, Linkedin, Mail, Twitter, Chess } from 'lucide-react';
-import { useTheme } from '@/components/ThemeProvider';
-import { cn } from '@/lib/utils';
+"use client";
 
-// Constants
-const NAV_LINKS = [
-  { href: '#about', label: 'About' },
-  { href: '#projects', label: 'Projects' },
-  { href: '#skills', label: 'Skills' },
-  { href: '#contact', label: 'Contact' }
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  Home,
+  User,
+  Code,
+  Briefcase,
+  Trophy,
+  Mail,
+  DollarSign,
+} from "lucide-react";
+
+import { cn } from "@/lib/utils";
+
+const navItems = [
+  { label: "Home", icon: Home, href: "#hero" },
+  { label: "About", icon: User, href: "#about" },
+  { label: "Skills", icon: Code, href: "#skills" },
+  { label: "Projects", icon: Briefcase, href: "#projects" },
+  { label: "Awards", icon: Trophy, href: "#testimonials" },
+  { label: "Pricing", icon: DollarSign, href: "#pricing" },
+  { label: "Contact", icon: Mail, href: "#contact" },
 ];
 
-const SOCIAL_LINKS = [
-  {
-    href: 'https://github.com/amaniaxx',
-    label: 'Visit GitHub profile',
-    icon: Github
-  },
-  {
-    href: 'https://www.linkedin.com/in/amaniax/',
-    label: 'Visit LinkedIn profile',
-    icon: Linkedin
-  },
-  {
-    href: 'mailto:beingamaniac@gmail.com',
-    label: 'Send email',
-    icon: Mail
-  },
-  {
-    href: 'https://www.chess.com/member/amaniaxx',
-    label: 'Visit Chess.com profile',
-    icon: Chess
-  }
-];
+const MOBILE_LABEL_WIDTH = 72;
 
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [isScrolled, setIsScrolled] = useState(false);
-  const { theme, setTheme } = useTheme();
+type NavBarProps = {
+  className?: string;
+  defaultIndex?: number;
+  stickyTop?: boolean;
+};
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
-    };
+export function Navbar({
+  className,
+  defaultIndex = 0,
+  stickyTop = true,
+}: NavBarProps) {
+  const [activeIndex, setActiveIndex] = useState(defaultIndex);
+  const [suppressSpy, setSuppressSpy] = useState(false);
+  const suppressTimer = useRef<number | null>(null);
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handleNavClick = (index: number, href: string) => {
+    setActiveIndex(index);
+    setSuppressSpy(true);
+    const element = document.querySelector(href);
+    if (element) {
+      // Prefer native scrollend to re-enable spy
+      const onScrollEnd = () => {
+        setSuppressSpy(false);
+        document.removeEventListener('scrollend', onScrollEnd as any);
+        if (suppressTimer.current) {
+          window.clearTimeout(suppressTimer.current);
+          suppressTimer.current = null;
+        }
+      };
+      document.addEventListener('scrollend', onScrollEnd as any, { once: true } as any);
+      // Fallback timer in case scrollend isn't supported
+      if (suppressTimer.current) window.clearTimeout(suppressTimer.current);
+      suppressTimer.current = window.setTimeout(() => setSuppressSpy(false), 1200);
 
-  const handleNavLinkClick = () => {
-    setIsOpen(false);
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
+      // No element found, re-enable spy immediately
+      setSuppressSpy(false);
+    }
   };
 
+  // Scroll spy to update active index based on visible section
+  useEffect(() => {
+    const idToIndex = new Map<string, number>(navItems.map((n, i) => [n.href.replace('#',''), i]));
+    const sections = Array.from(document.querySelectorAll(
+      navItems.map(n => n.href).join(', ')
+    )) as HTMLElement[];
+
+    if (!sections.length) return;
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        if (suppressSpy) { ticking = false; return; }
+        // Find section closest to top (account for fixed navbar height ~64px)
+        const offset = 72;
+        let bestId: string | null = null;
+        let bestDist = Number.POSITIVE_INFINITY;
+
+        for (const sec of sections) {
+          const rect = sec.getBoundingClientRect();
+          const dist = Math.abs(rect.top - offset);
+          if (rect.bottom > offset && rect.top < window.innerHeight * 0.8 && dist < bestDist) {
+            bestDist = dist;
+            bestId = sec.id;
+          }
+        }
+        if (bestId && idToIndex.has(bestId)) {
+          const idx = idToIndex.get(bestId)!;
+          if (idx !== activeIndex) setActiveIndex(idx);
+        }
+        ticking = false;
+      });
+    };
+
+    const observer = new IntersectionObserver(() => handleScroll(), {
+      root: null,
+      threshold: [0.1, 0.5, 0.9],
+    });
+
+    sections.forEach(s => observer.observe(s));
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [activeIndex, suppressSpy]);
+
   return (
-    <nav 
+    <motion.nav
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      transition={{ type: "spring", stiffness: 300, damping: 26 }}
+      role="navigation"
+      aria-label="Main Navigation"
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        isScrolled ? "bg-background/80 backdrop-blur-lg border-b border-border/40" : "bg-transparent"
+        "bg-black/40 backdrop-blur-xl border border-white/10 rounded-full flex items-center p-1.5 sm:p-2 shadow-2xl space-x-1 min-w-[280px] sm:min-w-[320px] max-w-[95vw] h-[48px] sm:h-[52px]",
+        "shadow-[inset_0_0_0_1px_rgba(255,255,255,0.05)]", // Inner glow
+        stickyTop && "fixed inset-x-0 top-4 mx-auto z-50 w-fit",
+        className,
       )}
+      style={{ 
+        touchAction: 'manipulation',
+        WebkitTapHighlightColor: 'transparent' 
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex-shrink-0">
-            <a href="#" className="flex items-center space-x-2 group">
-              <div className="relative w-8 h-8">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary to-accent rounded-lg transform rotate-45 group-hover:rotate-180 transition-transform duration-500"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <code className="text-primary-foreground font-mono font-bold text-lg transform -rotate-45 group-hover:rotate-0 transition-transform duration-500">
-                    {'</>'}
-                  </code>
-                </div>
-              </div>
-              <span className="text-xl font-bold text-gradient-primary hidden sm:inline-block">Dev</span>
-            </a>
-          </div>
+      {navItems.map((item, idx) => {
+        const Icon = item.icon;
+        const isActive = activeIndex === idx;
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
-            {NAV_LINKS.map(({ href, label }) => (
-              <a key={href} href={href} className="nav-link">
-                {label}
-              </a>
-            ))}
-          </div>
+        return (
+          <motion.button
+            key={item.label}
+            whileTap={{ scale: 0.97 }}
+            className={cn(
+              "flex items-center gap-0 px-3 py-2 rounded-full transition-all duration-500 relative h-10 min-w-[48px] min-h-[44px] max-h-[48px]",
+              isActive
+                ? "bg-white/10 text-white gap-2 backdrop-blur-md border border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
+                : "bg-transparent text-zinc-400 hover:text-white hover:bg-white/5",
+              "focus:outline-none focus-visible:ring-0",
+            )}
+            onClick={() => handleNavClick(idx, item.href)}
+            aria-label={item.label}
+            aria-current={isActive ? 'page' : undefined}
+            type="button"
+            style={{ 
+              touchAction: 'manipulation',
+              WebkitTapHighlightColor: 'transparent' 
+            }}
+          >
+            <Icon
+              size={20}
+              strokeWidth={1.5}
+              aria-hidden
+              className="transition-colors duration-500"
+            />
 
-          {/* Desktop Actions */}
-          <div className="hidden md:flex items-center space-x-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-              className="nav-icon-button"
-              aria-label="Toggle theme"
+            <motion.div
+              initial={false}
+              animate={{
+                width: isActive ? `${MOBILE_LABEL_WIDTH}px` : "0px",
+                opacity: isActive ? 1 : 0,
+                marginLeft: isActive ? "8px" : "0px",
+              }}
+              transition={{
+                width: { type: "spring", stiffness: 350, damping: 32 },
+                opacity: { duration: 0.19 },
+                marginLeft: { duration: 0.19 },
+              }}
+              className={cn("overflow-hidden flex items-center max-w-[72px]")}
             >
-              {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
-            </Button>
-            
-            {SOCIAL_LINKS.map(({ href, label, icon: Icon }) => (
-              <Button
-                key={href}
-                variant="ghost"
-                size="icon"
-                asChild
-                className="nav-icon-button"
-                aria-label={label}
+              <span
+                className={cn(
+                  "font-medium text-xs whitespace-nowrap select-none transition-opacity duration-200 overflow-hidden text-ellipsis text-[clamp(0.625rem,0.5263rem+0.5263vw,1rem)] leading-[1.9]",
+                  isActive ? "text-white" : "opacity-0",
+                )}
+                title={item.label}
               >
-                <a href={href} target="_blank" rel="noopener noreferrer">
-                  <Icon className="h-5 w-5" />
-                </a>
-              </Button>
-            ))}
-          </div>
-
-          {/* Mobile menu button */}
-          <div className="md:hidden">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsOpen(!isOpen)}
-              className="nav-icon-button"
-              aria-label="Toggle menu"
-            >
-              {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-            </Button>
-          </div>
-        </div>
-      </div>
-
-      {/* Mobile menu */}
-      <div className={cn(
-        "md:hidden transition-all duration-300 ease-in-out",
-        isOpen ? "max-h-screen opacity-100" : "max-h-0 opacity-0 overflow-hidden"
-      )}>
-        <div className="px-2 pt-2 pb-3 space-y-1 bg-background/95 backdrop-blur-lg border-b border-border/40">
-          {NAV_LINKS.map(({ href, label }) => (
-            <a
-              key={href}
-              href={href}
-              className="mobile-nav-link"
-              onClick={handleNavLinkClick}
-            >
-              {label}
-            </a>
-          ))}
-        </div>
-      </div>
-    </nav>
+                {item.label}
+              </span>
+            </motion.div>
+          </motion.button>
+        );
+      })}
+    </motion.nav>
   );
-};
+}
 
 export default Navbar; 

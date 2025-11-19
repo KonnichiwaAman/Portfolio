@@ -1,4 +1,3 @@
-
 import { useEffect, useRef } from 'react';
 
 const ParticleBackground = () => {
@@ -8,8 +7,21 @@ const ParticleBackground = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { 
+      alpha: true,
+      desynchronized: true, // Optimize rendering performance
+    });
     if (!ctx) return;
+
+    // Detect if device is mobile for performance optimization
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth < 768;
+    const isReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Disable particle animation on mobile or if reduced motion is preferred
+    if (isMobile || isReducedMotion) {
+      canvas.style.display = 'none';
+      return;
+    }
 
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
@@ -23,8 +35,10 @@ const ParticleBackground = () => {
       opacity: number;
     }> = [];
 
-    // Create fewer, more subtle particles
-    for (let i = 0; i < 60; i++) {
+    // Reduce particle count for better performance
+    const particleCount = Math.min(40, Math.floor(window.innerWidth / 30));
+    
+    for (let i = 0; i < particleCount; i++) {
       particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
@@ -34,6 +48,8 @@ const ParticleBackground = () => {
         opacity: Math.random() * 0.3 + 0.1,
       });
     }
+
+    let animationFrameId: number;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -55,7 +71,7 @@ const ParticleBackground = () => {
         ctx.fillStyle = `rgba(59, 130, 246, ${particle.opacity})`;
         ctx.fill();
 
-        // Draw subtle connections
+        // Draw subtle connections only to nearby particles
         particles.slice(index + 1).forEach((otherParticle) => {
           const dx = particle.x - otherParticle.x;
           const dy = particle.y - otherParticle.y;
@@ -72,18 +88,27 @@ const ParticleBackground = () => {
         });
       });
 
-      requestAnimationFrame(animate);
+      animationFrameId = requestAnimationFrame(animate);
     };
 
     animate();
 
+    let resizeTimeout: number;
     const handleResize = () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
+      clearTimeout(resizeTimeout);
+      resizeTimeout = window.setTimeout(() => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+      }, 250);
     };
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
+    
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+      clearTimeout(resizeTimeout);
+    };
   }, []);
 
   return (
@@ -91,6 +116,7 @@ const ParticleBackground = () => {
       ref={canvasRef}
       className="fixed inset-0 pointer-events-none z-0 opacity-60"
       style={{ background: 'transparent' }}
+      aria-hidden="true"
     />
   );
 };
