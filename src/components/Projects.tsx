@@ -53,7 +53,7 @@ const Projects = () => {
   };
 
   return (
-    <section id="projects" className="py-20 px-6 cv-auto scroll-mt-28">
+    <section id="projects" className="py-12 sm:py-20 px-4 sm:px-6 cv-auto scroll-mt-28">
       <motion.div 
         className="max-w-6xl mx-auto"
         variants={containerVariants}
@@ -61,66 +61,67 @@ const Projects = () => {
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        <motion.div variants={itemVariants} className="text-center mb-16">
-            <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-gradient-primary tracking-tight">
+        <motion.div variants={itemVariants} className="text-center mb-8 sm:mb-16">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-4 sm:mb-6 text-gradient-primary tracking-tight">
               Featured Projects
             </h2>
             <div 
-              className="w-32 h-1 bg-gradient-to-r from-primary via-accent to-secondary mx-auto mb-8"
+              className="w-24 sm:w-32 h-1 bg-gradient-to-r from-primary via-accent to-secondary mx-auto mb-4 sm:mb-8"
               aria-hidden="true"
             ></div>
-            <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light">
+            <p className="text-base sm:text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed font-light px-2">
               A selection of recent projects showcasing technical expertise and modern development practices
             </p>
         </motion.div>
           
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-6">
             {PROJECTS.map((project) => (
               <motion.div 
                 key={project.title} 
                 variants={itemVariants}
                 className="h-full"
               >
-                <Card className="h-full hover:shadow-lg transition-all duration-300 hover:border-primary/50 hover:-translate-y-1">
-                  <CardHeader>
-                    <div className="flex justify-between items-start mb-2">
-                      <CardTitle className="text-xl font-bold">{project.title}</CardTitle>
-                      <span className={`px-2 py-1 text-xs font-semibold rounded-full ${getStatusColor(project.status)}`}>
+                <Card className="h-full transition-all duration-300 hover-hover:hover:shadow-lg hover-hover:hover:border-primary/50 hover-hover:hover:-translate-y-1 active:scale-[0.98] active:bg-accent/5">
+                  <CardHeader className="p-4 sm:p-6">
+                    <div className="flex justify-between items-start mb-2 gap-2">
+                      <CardTitle className="text-base sm:text-xl font-bold leading-tight">{project.title}</CardTitle>
+                      <span className={`px-2 py-0.5 text-[10px] sm:text-xs font-semibold rounded-full whitespace-nowrap ${getStatusColor(project.status)}`}>
                         {project.status}
                       </span>
                     </div>
-                    <CardDescription className="text-muted-foreground">
+                    <CardDescription className="text-muted-foreground text-sm sm:text-base">
                       {project.description}
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
-                    <div className="space-y-4">
-                      <div className="flex flex-wrap gap-2">
+                  <CardContent className="p-4 sm:p-6">
+                    <div className="space-y-3 sm:space-y-4">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2">
                         {project.tech.map((tech) => (
                           <span 
                             key={tech}
-                            className="px-2 py-1 bg-primary/10 text-primary rounded text-sm"
+                            className="px-2 py-0.5 sm:py-1 bg-primary/10 text-primary rounded text-xs sm:text-sm"
                           >
                             {tech}
                           </span>
                         ))}
                       </div>
-                      <div className="flex gap-4">
+                      <div className="flex gap-2 sm:gap-4">
                         <Button
-                          className="flex-1"
+                          className="flex-1 text-xs sm:text-sm h-8 sm:h-10"
                           onClick={() => handleOpen(project.liveUrl)}
                           aria-label="Open live demo"
                         >
-                          <ExternalLink className="mr-2 h-4 w-4" />
-                          Live Demo
+                          <ExternalLink className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
+                          <span className="hidden xs:inline">Live Demo</span>
+                          <span className="xs:hidden">Demo</span>
                         </Button>
                         <Button
                           variant="outline"
-                          className="flex-1"
+                          className="flex-1 text-xs sm:text-sm h-8 sm:h-10"
                           onClick={() => handleOpen(project.githubUrl)}
                           aria-label="View source code"
                         >
-                          <Github className="mr-2 h-4 w-4" />
+                          <Github className="mr-1 sm:mr-2 h-3 w-3 sm:h-4 sm:w-4" />
                           Source
                         </Button>
                       </div>

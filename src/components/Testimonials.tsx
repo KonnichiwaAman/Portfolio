@@ -61,6 +61,70 @@ const testimonials = [
       avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face"
     },
     text: "Incredible results with minimal setup. The AI models are state-of-the-art and extremely accurate."
+  },
+  {
+    author: {
+      name: "Sarah Johnson",
+      handle: "@sarahdev",
+      avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "The real-time collaboration features have revolutionized our team's workflow. Highly recommended!"
+  },
+  {
+    author: {
+      name: "Michael Roberts",
+      handle: "@mikeroberts",
+      avatar: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "Outstanding platform with incredible scalability. Our production load increased 10x with zero issues."
+  },
+  {
+    author: {
+      name: "Priya Sharma",
+      handle: "@priyatech",
+      avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "Best investment we've made in our tech stack. The ROI was visible within the first month."
+  },
+  {
+    author: {
+      name: "Daniel Lee",
+      handle: "@danlee",
+      avatar: "https://images.unsplash.com/photo-1519345182560-3f2917c472ef?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "Seamless integration and exceptional support. The team went above and beyond to help us succeed."
+  },
+  {
+    author: {
+      name: "Lisa Anderson",
+      handle: "@lisacode",
+      avatar: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "The automation capabilities saved us hundreds of hours. A true game-changer for our operations."
+  },
+  {
+    author: {
+      name: "Ryan Garcia",
+      handle: "@ryandev",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "Incredibly intuitive interface with powerful features. Our team was productive from day one."
+  },
+  {
+    author: {
+      name: "Nina Patel",
+      handle: "@ninaml",
+      avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "The analytics and insights provided are invaluable. We make better decisions faster now."
+  },
+  {
+    author: {
+      name: "Tom Wilson",
+      handle: "@tomwilson",
+      avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face"
+    },
+    text: "Excellent performance even under heavy load. The infrastructure is rock solid and reliable."
   }
 ]
 

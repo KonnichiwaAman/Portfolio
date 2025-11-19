@@ -37,6 +37,9 @@ export default {
 			'2xl': '1536px',
 		},
 		extend: {
+			screens: {
+				'hover-hover': {'raw': '(hover: hover)'},
+			},
 			fontFamily: {
 				sans: ['Outfit', 'Inter', 'sans-serif'],
 			},

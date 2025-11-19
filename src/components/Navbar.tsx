@@ -147,7 +147,7 @@ export function Navbar({
               "flex items-center gap-0 px-3 py-2 rounded-full transition-all duration-500 relative h-10 min-w-[48px] min-h-[44px] max-h-[48px]",
               isActive
                 ? "bg-white/10 text-white gap-2 backdrop-blur-md border border-white/20 shadow-[0_0_20px_rgba(255,255,255,0.1)]"
-                : "bg-transparent text-zinc-400 hover:text-white hover:bg-white/5",
+                : "bg-transparent text-zinc-400 hover-hover:hover:text-white hover-hover:hover:bg-white/5 active:text-white active:bg-white/5",
               "focus:outline-none focus-visible:ring-0",
             )}
             onClick={() => handleNavClick(idx, item.href)}
