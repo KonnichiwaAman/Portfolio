@@ -1,0 +1,15 @@
+name: Bug Report
+description: Report an issue on this portfolio deployment
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Report an issue with the deployment.
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: Describe the issue.
+    validations:
+      required: true
