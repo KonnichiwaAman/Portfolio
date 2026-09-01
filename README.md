@@ -1,4 +1,4 @@
-# Aman Awasthi Portfolio
+# Aman Awasthi Portfolio (Legacy)
 
 An earlier personal portfolio application built with React, TypeScript, and Vite.
 
@@ -8,7 +8,7 @@ An earlier personal portfolio application built with React, TypeScript, and Vite
 
 ## Status
 
-This repository is retained for the currently deployed portfolio site. It should not be presented alongside the newer portfolio repository as a separate flagship project.
+This repository is retained for the currently deployed portfolio site. Active primary portfolio development occurs at [Aman-Portfolio](https://github.com/amandeavor/Aman-Portfolio).
 
 ## Technology
 
@@ -42,10 +42,12 @@ npm run build
 npm run preview
 ```
 
-## Configuration and deployment
+## Contributing and Governance
 
-Copy `.env.example` to `.env` when local configuration is needed. The repository includes Netlify deployment configuration. Confirm the active deployment source before changing repository visibility, branches, or hosting settings.
+- [Contributing Guide](CONTRIBUTING.md)
+- [Security Policy](SECURITY.md)
+- [Code of Conduct](CODE_OF_CONDUCT.md)
 
 ## License
 
-No repository-level license file is currently included.
+No repository-level license file is currently included. All rights reserved.
