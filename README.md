@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="docs/assets/social-preview.png" alt="Aman Awasthi: Finance, Software, and Open Source" width="100%">
+
 # Aman Awasthi Portfolio (Legacy)
 
 **Earlier personal portfolio web application and interactive project showcase.**
